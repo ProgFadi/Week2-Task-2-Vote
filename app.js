@@ -2,6 +2,10 @@ import 'babel-polyfill'
 let news;
 
 
+window.addEventListener('popstate',(state)=>{
+    console.log('state is : '+state.state.searchTerm);
+});
+
 document.addEventListener('DOMContentLoaded', ()=>{
   news = document.getElementById('news');
   let search = document.getElementById('search')
@@ -9,6 +13,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   search.addEventListener('keyup', (event)=>{
     // console.log(event)/
     if(event.key == 'Enter') {
+      history.pushState({searchTerm:search.value},"",search.value)
       getNews(search.value)
     }
   })
@@ -25,12 +30,25 @@ async function getNews(query) {
 
 function updateUI(content) {
   news.innerHTML = content
+  let imgs=document.getElementsByClassName('im')
+  for (let index = 0; index < imgs.length; index++) {
+    
+    imgs[index].addEventListener('click',function(){
+    
+     let counter= document.getElementById('counter'+parseInt(this.getAttribute('id')))
+     
+     counter.innerText=parseInt(counter.innerText)+1;
+    });
+    
+  }
 }
 
 function createArticle(article, i) {
-    article.counter=0;
+    article.counter=2;
   return `
 
+  
+  
     <article>
       <img width="124px" height="124px" src="${article.urlToImage}" alt="">
       <div id="text">
@@ -39,11 +57,16 @@ function createArticle(article, i) {
         <time>${article.publishedAt}</time>
       </div>
       <div id="voter">
-        <img  id="img${i}" onclick="document.getElementById('counter${i}').innerText=parseInt(document.getElementById('counter${i}').innerText)+1;${article.counter++}" height="13px" src="${require('./assets/upvote.svg')}" alt="">
+        <img  class="im" id="${i}"  height="13px" src="${require('./assets/upvote.svg')}" alt="">
         <div id="counter${i}">${article.counter}</div>
         <img  id=img${i}" onclick="if(document.getElementById('counter${i}').innerText>0){document.getElementById('counter${i}').innerText=parseInt(document.getElementById('counter${i}').innerText)-1;${article.counter--} }" height="13px" src="${require('./assets/downvote.svg')}" alt="">
       </div>
     </article>
+    <script src="${require('./app.js')}"></script>
+  
   `
 }
+
+
+
 
