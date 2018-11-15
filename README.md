@@ -2,9 +2,10 @@
 
 
 ## You need to install 'babel-polyfill' module :)
+
 ```
 
-<p dir="rtl" style="text-align:right;">
+<p dir='rtl' style='text-align:right;'>
    المشكلة : صعوبة الوصول الى ايليمنت متولد بصورة داينمك باي كود من اجل التلاعب بقيمة ايليمنت اخر
 الحل : طريقتين
 1- باستخدام الانلاين كود في فكشن الاون كلك , استخدمت هذه الطريقة في الvoteup
